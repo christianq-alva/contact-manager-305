@@ -1,14 +1,17 @@
-import './App.css'
 import ContactCard from './components/ContactCard'
 import CopyrightFullYear from './components/Copyright'
-
+import Header from './components/Header'
 export default function App() {
   return (
-   <div>
-    <h1>Contact Manager</h1>
-    <ContactCard></ContactCard>
-    <CopyrightFullYear></CopyrightFullYear>
-   </div>
+
+    <main style={{justifyContent: "center"}}>
+        <Header />
+        <ContactCard />
+        <ContactCard />
+    
+      <CopyrightFullYear />
+    </main>
+
   )
 }
 
