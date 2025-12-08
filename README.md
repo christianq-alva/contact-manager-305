@@ -1,16 +1,46 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Contact Manager
 
-Currently, two official plugins are available:
+Aplicación React (Vite) que muestra una lista de contactos y tarjetas individuales.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Descripción: proyecto simple para practicar la composición de componentes en React, manejo de props y renderizado de listas (ContactList → ContactCard). 
 
-## React Compiler
+## Ejecutar localmente
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Instala dependencias:
 
-## Expanding the ESLint configuration
+```bash
+npm install
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Inicia el servidor de desarrollo:
+
+```bash
+npm run dev
+```
+
+3. Abre el navegador en `http://localhost:5173`.
+
+## Archivos y componentes relevantes (estado actual)
+
+- `src/App.jsx`: componente raíz que renderiza el `Header`, la lista de contactos y el footer.
+- `src/components/ContactList.jsx`: recibe `contacts` y renderiza un `ContactCard` por contacto. Hay una variante que filtra favoritos con `contacts.filter(c => c.isFavorite)` antes de `.map()`.
+- `src/components/ContactCard.jsx`: presenta un contacto individual. Firma: `ContactCard({ id, name, phone, email, isFavorite, role })`.
+- `src/components/Badge.jsx`: componente simple que muestra `text` sobre un fondo de color (recibe `text` y `color`).
+- `src/components/Header.jsx`: título y subtítulo de la app.
+- `src/components/Copyright.jsx`: pie con el nombre y el año (usa `new Date().getFullYear()`).
+
+## Detalles importantes sobre el comportamiento actual
+
+- `ContactList` debe recibir un prop `contacts` (array). Si no se le pasa, no renderizará tarjetas.
+- En el `map` de `ContactList` usa `key={contact.id}` para React; si el `ContactCard` necesita el identificador dentro del componente, pásalo también como `id={contact.id}` porque `key` no aparece dentro de `props`.
+- Para mostrar solo los favoritos, usa `contacts.filter(c => c.isFavorite)` antes de `.map()`.
+
+## Estado de estilos
+
+- El proyecto usa CSS en `src/index.css` y `src/App.css`. Algunas sugerencias para responsive (flexbox) fueron discutidas, pero actualmente el proyecto mantiene estilos simples.
+
+## Cambios fáciles que ya existen en el repo
+
+- `Badge.jsx` (componente simple) y el mapeo de 3 colores para roles (`Amigo`, `Trabajo`, `Familia`).
+- Filtrado por favoritos en `ContactList` (implementado mediante `.filter`).
