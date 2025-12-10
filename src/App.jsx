@@ -6,7 +6,7 @@ import ContactList from './components/ContactList';
 const contacts = [
   { id: 1, name: "Christian", phone: "+1 (555) 123-4567", email: "christian@email.com", isFavorite: true, role: "Amigo" },
   { id: 2, name: "Carlos", phone: "+1 (555) 987-6543", email: "carlos@email.com", isFavorite: false, role: "Trabajo" },
-  { id: 3, name: "Juan", phone: "+1 (555) 456-7890", email: "juan@email.com", isFavorite: true, role: "Trabajos" },
+  { id: 3, name: "Juan", phone: "+1 (555) 456-7890", email: "juan@email.com", isFavorite: true, role: "Trabajo" },
   { id: 4, name: "Nick", phone: "+1 (555) 456-7890", email: "nick@email.com", isFavorite: true, role: "Familia" }
 ];
 
@@ -16,18 +16,20 @@ export default function App() {
   }).length;
 
   return (
-    <>
-      <Header />
-     <p style={{ color: '#ffffffff' }}>
-        Total: {contacts.length} contactos | Favoritos: {favoriteCount}
-      </p>
-      <main style={{ justifyContent: "center" }}>
-        <ContactList contacts={contacts} />
-        <CopyrightFullYear />
-      </main>
-    </>
-
-
+    <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 to-gray-800">
+      <div className="max-w-6xl mx-auto px-4 py-8">
+        <Header />
+        <div className="mt-4 text-center text-gray-300 text-sm">
+          <span className="font-semibold">Total:</span> {contacts.length} contactos | <span className="font-semibold">Favoritos:</span> {favoriteCount}
+        </div>
+        <main className="mt-8">
+          <ContactList contacts={contacts} />
+        </main>
+        <footer className="mt-16 pt-8 border-t border-gray-700">
+          <CopyrightFullYear />
+        </footer>
+      </div>
+    </div>
   )
 }
 
