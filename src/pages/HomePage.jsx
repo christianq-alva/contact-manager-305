@@ -73,14 +73,14 @@ export default function HomePage() {
         >
           + Agregar Contacto
         </button>
-        {contacts.length > 0 && (
-          <button
-            onClick={handleClearAll}
-            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            🗑️ Limpiar Todo
-          </button>
-        )}
+          {contacts.length > 0 && (
+            <button
+              onClick={handleClearAll}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded transition-colors"
+            >
+              Limpiar Todo
+            </button>
+          )}
       </div>
       <main className="mt-8">
         <ContactList

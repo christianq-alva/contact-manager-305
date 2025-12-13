@@ -13,7 +13,7 @@ export default function Navbar() {
             : "text-gray-800 hover:text-blue-600 transition-colors font-medium";
         }}
       >
-        🏠 Home
+        Home
       </NavLink>
       <NavLink 
         to="/about" 
@@ -25,7 +25,7 @@ export default function Navbar() {
             : "text-gray-800 hover:text-blue-600 transition-colors font-medium";
         }}
       >
-        ℹ️ About
+        About
       </NavLink>
     </nav>
   );

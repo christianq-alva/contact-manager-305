@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Badge from './Badge';
 
 // Ahora recibe onToggleFavorite como prop para poder cambiar el estado de favorito
@@ -36,7 +37,16 @@ export default function ContactCard({ id, name, phone, email, isFavorite, role, 
                     <Badge text={role} color={badgeColor} />
                 </div>
             </div>
-            <div className="mt-3 text-xs text-gray-500">ID: {id}</div>
+            <div className="mt-3 flex justify-between items-center">
+                <div className="text-xs text-gray-500">ID: {id}</div>
+                {/* Link a la página de detalle del contacto */}
+                <Link
+                    to={`/contact/${id}`}
+                    className="text-blue-500 hover:text-blue-700 text-sm font-semibold"
+                >
+                    Ver más
+                </Link>
+            </div>
         </div>
     )
 }
