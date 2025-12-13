@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import ContactDetailPage from './pages/ContactDetailPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
   return (
@@ -13,6 +14,8 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/contact/:id" element={<ContactDetailPage />} />
           <Route path="/about" element={<AboutPage />} />
+          {/* Ruta 404: captura cualquier ruta que no coincida con las anteriores */}
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </div>
