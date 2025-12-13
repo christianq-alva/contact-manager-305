@@ -61,40 +61,38 @@ export default function HomePage() {
   }).length;
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 to-gray-800">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        <Header />
-        <div className="mt-4 text-center text-gray-300 text-sm">
-          <span className="font-semibold">Total:</span> {contacts.length} contactos | <span className="font-semibold">Favoritos:</span> {favoriteCount}
-        </div>
-        <div className="mt-4 text-center space-x-4">
-          <button
-            onClick={handleAddContact}
-            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors"
-          >
-            + Agregar Contacto
-          </button>
-          {contacts.length > 0 && (
-            <button
-              onClick={handleClearAll}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded transition-colors"
-            >
-              🗑️ Limpiar Todo
-            </button>
-          )}
-        </div>
-        <main className="mt-8">
-          <ContactList
-            contacts={contacts}
-            onDeleteContact={handleDeleteContact}
-            onToggleFavorite={handleToggleFavorite}
-          />
-        </main>
-        <footer className="mt-16 pt-8 border-t border-gray-700">
-          <CopyrightFullYear />
-        </footer>
+    <>
+      <Header />
+      <div className="mt-4 text-center text-gray-300 text-sm">
+        <span className="font-semibold">Total:</span> {contacts.length} contactos | <span className="font-semibold">Favoritos:</span> {favoriteCount}
       </div>
-    </div>
+      <div className="mt-4 text-center space-x-4">
+        <button
+          onClick={handleAddContact}
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors"
+        >
+          + Agregar Contacto
+        </button>
+        {contacts.length > 0 && (
+          <button
+            onClick={handleClearAll}
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded transition-colors"
+          >
+            🗑️ Limpiar Todo
+          </button>
+        )}
+      </div>
+      <main className="mt-8">
+        <ContactList
+          contacts={contacts}
+          onDeleteContact={handleDeleteContact}
+          onToggleFavorite={handleToggleFavorite}
+        />
+      </main>
+      <footer className="mt-16 pt-8 border-t border-gray-700">
+        <CopyrightFullYear />
+      </footer>
+    </>
   )
 }
 
