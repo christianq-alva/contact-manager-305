@@ -1,7 +1,8 @@
 import React from 'react';
 import Badge from './Badge';
 
-export default function ContactCard({ id, name, phone, email, isFavorite, role }) {
+// Ahora recibe onToggleFavorite como prop para poder cambiar el estado de favorito
+export default function ContactCard({ id, name, phone, email, isFavorite, role, onToggleFavorite }) {
     const roleColors = {
         'Amigo': '#10B981',
         'Trabajo': '#3B82F6',
@@ -17,7 +18,15 @@ export default function ContactCard({ id, name, phone, email, isFavorite, role }
         }`}>
             <div className="flex justify-between items-start mb-4">
                 <h3 className="text-lg font-bold text-gray-800">{name}</h3>
-                <a href="#" className="text-blue-500 hover:text-blue-700 text-sm font-semibold">More</a>
+                <button
+                    onClick={function () {
+                        onToggleFavorite(id);
+                    }}
+                    className="text-2xl hover:scale-110 transition-transform cursor-pointer"
+                    title={isFavorite ? "Quitar de favoritos" : "Agregar a favoritos"}
+                >
+                    {isFavorite ? '⭐' : '☆'}
+                </button>
             </div>
             <div className="space-y-2 text-sm text-gray-700">
                 <p><strong>Tel:</strong> {phone}</p>

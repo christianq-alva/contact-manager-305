@@ -16,7 +16,6 @@ export default function App() {
 
 
   function handleAddContact() {
-    // Paso 1: Creamos un nuevo objeto contacto
     const newContact = {
       id: Date.now(),
       name: `Contacto ${contacts.length + 1}`,
@@ -31,16 +30,45 @@ export default function App() {
 
 
   function handleDeleteContact(contactId) {
-    // Paso 1: Usamos filter() para crear un nuevo array SIN el contacto eliminado
-    // filter() recorre cada contacto y solo incluye los que cumplan la condición
-    const updatedContacts = contacts.filter(function(contact) {
-      // Retornamos true si el ID es DIFERENTE al que queremos eliminar
-      // Retornamos false si el ID es IGUAL (esto lo excluye del nuevo array)
+    const updatedContacts = contacts.filter(function (contact) {
       return contact.id !== contactId;
     });
-
-    // Paso 2: Actualizamos el estado con el nuevo array (sin el contacto eliminado)
     setContacts(updatedContacts);
+  }
+
+  // ============================================
+  // FUNCIÓN PARA LIMPIAR TODOS LOS CONTACTOS
+  // ============================================
+  function handleClearAll() {
+    // Establecemos el estado a un array vacío
+    // Esto elimina todos los contactos de una vez
+    setContacts([]);
+  }
+
+  // ============================================
+  // FUNCIÓN PARA CAMBIAR EL ESTADO DE FAVORITO
+  // ============================================
+  // Esta función recibe el ID del contacto cuyo favorito queremos cambiar
+  function handleToggleFavorite(contactId) {
+    // Usamos map() para crear un nuevo array modificando solo el contacto específico
+    const updatedContacts = contacts.map(function (contact) {
+      // Si este es el contacto que queremos modificar
+      if (contact.id === contactId) {
+        // Retornamos una copia del contacto con isFavorite invertido
+        // Si era true, ahora es false. Si era false, ahora es true
+        return { ...contact, isFavorite: !contact.isFavorite };
+      }
+      // Si no es el contacto que buscamos, lo retornamos sin cambios
+      return contact;
+    });
+
+    // Actualizamos el estado con el nuevo array
+    setContacts(updatedContacts);
+    
+    // Ejemplo de cómo funciona:
+    // Si tenemos un contacto con isFavorite: true
+    // !contact.isFavorite cambia a false
+    // { ...contact, isFavorite: false } crea una copia con el nuevo valor
   }
 
   const favoriteCount = contacts.filter(function (c) {
@@ -54,23 +82,35 @@ export default function App() {
         <div className="mt-4 text-center text-gray-300 text-sm">
           <span className="font-semibold">Total:</span> {contacts.length} contactos | <span className="font-semibold">Favoritos:</span> {favoriteCount}
         </div>
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-center space-x-4">
           <button
             onClick={handleAddContact}
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition-colors"
           >
             + Agregar Contacto
           </button>
+          {/* 
+            Botón para eliminar todos los contactos
+            Solo se muestra si hay contactos (contacts.length > 0)
+          */}
+          {contacts.length > 0 && (
+            <button
+              onClick={handleClearAll}
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded transition-colors"
+            >
+              🗑️ Limpiar Todo
+            </button>
+          )}
         </div>
         <main className="mt-8">
           {/* 
-            Pasamos la función handleDeleteContact como prop a ContactList
-            onDeleteContact es el nombre de la prop que ContactList recibirá
-            Esto permite que ContactList pueda eliminar contactos llamando a esta función
+            Pasamos la función handleToggleFavorite como prop
+            Esto permite que ContactCard pueda cambiar el estado de favorito
           */}
-          <ContactList 
-            contacts={contacts} 
+          <ContactList
+            contacts={contacts}
             onDeleteContact={handleDeleteContact}
+            onToggleFavorite={handleToggleFavorite}
           />
         </main>
         <footer className="mt-16 pt-8 border-t border-gray-700">
