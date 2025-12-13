@@ -14,6 +14,7 @@ export default function App() {
     { id: 4, name: "Nick", phone: "+1 (555) 456-7890", email: "nick@email.com", isFavorite: true, role: "Familia" }
   ]);
 
+
   function handleAddContact() {
     // Paso 1: Creamos un nuevo objeto contacto
     const newContact = {
@@ -28,7 +29,20 @@ export default function App() {
     setContacts([...contacts, newContact]);
   }
 
-  // Contar cuántos contactos son favoritos
+
+  function handleDeleteContact(contactId) {
+    // Paso 1: Usamos filter() para crear un nuevo array SIN el contacto eliminado
+    // filter() recorre cada contacto y solo incluye los que cumplan la condición
+    const updatedContacts = contacts.filter(function(contact) {
+      // Retornamos true si el ID es DIFERENTE al que queremos eliminar
+      // Retornamos false si el ID es IGUAL (esto lo excluye del nuevo array)
+      return contact.id !== contactId;
+    });
+
+    // Paso 2: Actualizamos el estado con el nuevo array (sin el contacto eliminado)
+    setContacts(updatedContacts);
+  }
+
   const favoriteCount = contacts.filter(function (c) {
     return c.isFavorite;
   }).length;
@@ -49,7 +63,15 @@ export default function App() {
           </button>
         </div>
         <main className="mt-8">
-          <ContactList contacts={contacts} />
+          {/* 
+            Pasamos la función handleDeleteContact como prop a ContactList
+            onDeleteContact es el nombre de la prop que ContactList recibirá
+            Esto permite que ContactList pueda eliminar contactos llamando a esta función
+          */}
+          <ContactList 
+            contacts={contacts} 
+            onDeleteContact={handleDeleteContact}
+          />
         </main>
         <footer className="mt-16 pt-8 border-t border-gray-700">
           <CopyrightFullYear />
