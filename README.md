@@ -1,6 +1,6 @@
 # Contact Manager
 
-Aplicación React (Vite) para gestionar contactos con funcionalidades completas de CRUD (Crear, Leer, Actualizar, Eliminar) y manejo de estado usando el hook `useState`.
+Aplicación React (Vite) para gestionar contactos con funcionalidades completas de CRUD (Crear, Leer, Actualizar, Eliminar), manejo de estado usando el hook `useState`, y navegación con React Router.
 
 ## 📋 Descripción
 
@@ -11,6 +11,9 @@ Proyecto educativo para aprender React, enfocado en:
 - Renderizado de listas con `map()`
 - Operaciones CRUD en arrays
 - Inmutabilidad en React
+- Routing y navegación con React Router
+- Rutas dinámicas y parámetros de URL
+- Navegación programática con `useNavigate`
 
 ## 🚀 Ejecutar localmente
 
@@ -30,17 +33,31 @@ npm run dev
 
 ## 📁 Estructura del Proyecto
 
-### Componentes Principales
+### Componente Raíz
 
-- **`src/App.jsx`**: Componente raíz que maneja el estado global de los contactos usando `useState`. Contiene todas las funciones de gestión (agregar, eliminar, limpiar, toggle favorito).
+- **`src/App.jsx`**: Componente raíz que configura las rutas de la aplicación usando `Routes` y `Route` de react-router-dom. Define todas las rutas disponibles.
+
+### Páginas
+
+- **`src/pages/HomePage.jsx`**: Página principal que muestra la lista de contactos. Maneja el estado de los contactos usando `useState` y contiene todas las funciones de gestión (agregar, eliminar, limpiar, toggle favorito).
+
+- **`src/pages/ContactDetailPage.jsx`**: Página de detalle de un contacto específico. Usa `useParams()` para obtener el ID del contacto desde la URL. Incluye botones de navegación "Anterior" y "Siguiente" para navegar entre contactos.
+
+- **`src/pages/AboutPage.jsx`**: Página "Acerca de" con información sobre la aplicación.
+
+- **`src/pages/NotFoundPage.jsx`**: Página 404 que se muestra cuando la ruta no existe.
+
+### Componentes
+
+- **`src/components/Navbar.jsx`**: Barra de navegación con enlaces a las diferentes páginas. Usa `NavLink` para resaltar el link activo.
+
+- **`src/components/Header.jsx`**: Título y subtítulo de la aplicación.
 
 - **`src/components/ContactList.jsx`**: Recibe `contacts` y funciones de callback como props. Renderiza una lista de `ContactCard` usando `map()`. Muestra mensaje cuando no hay contactos.
 
-- **`src/components/ContactCard.jsx`**: Presenta un contacto individual con toda su información. Incluye botón para cambiar estado de favorito. Firma: `ContactCard({ id, name, phone, email, isFavorite, role, onToggleFavorite })`.
+- **`src/components/ContactCard.jsx`**: Presenta un contacto individual con toda su información. Incluye botón para cambiar estado de favorito y botón "Ver más" que usa `useNavigate()` para navegar a la página de detalle. Firma: `ContactCard({ id, name, phone, email, isFavorite, role, onToggleFavorite })`.
 
 - **`src/components/Badge.jsx`**: Componente simple que muestra texto sobre un fondo de color personalizado (recibe `text` y `color`).
-
-- **`src/components/Header.jsx`**: Título y subtítulo de la aplicación.
 
 - **`src/components/Copyright.jsx`**: Pie de página con el nombre y el año actual (usa `new Date().getFullYear()`).
 
@@ -77,6 +94,23 @@ npm run dev
 ### 6. **Contador de Contactos y Favoritos**
 - Muestra el total de contactos y la cantidad de favoritos
 - Se actualiza automáticamente cuando cambia el estado
+
+### 7. **Sistema de Rutas con React Router**
+- Navegación entre páginas sin recargar la aplicación
+- Rutas definidas: `/` (Home), `/contact/:id` (Detalle), `/about` (Acerca de)
+- Ruta 404 (`*`) para páginas no encontradas
+- Navegación programática con `useNavigate()`
+
+### 8. **Página de Detalle de Contacto**
+- Vista detallada de cada contacto accesible desde `/contact/:id`
+- Usa `useParams()` para obtener el ID del contacto desde la URL
+- Botones de navegación "Anterior" y "Siguiente" para navegar entre contactos
+- Los botones se desactivan cuando no hay contacto anterior/siguiente
+
+### 9. **Navegación con Navbar**
+- Barra de navegación visible en todas las páginas
+- Usa `NavLink` para resaltar automáticamente el link activo
+- Navegación sin recargar la página
 
 ## 🔑 Conceptos Clave Aprendidos
 
@@ -122,6 +156,46 @@ const updatedContacts = contacts.map(contact => {
 {isFavorite ? '⭐' : '☆'}
 ```
 
+### React Router
+
+**Rutas y Navegación**:
+```jsx
+// Configuración de rutas en App.jsx
+<Routes>
+  <Route path="/" element={<HomePage />} />
+  <Route path="/contact/:id" element={<ContactDetailPage />} />
+  <Route path="/about" element={<AboutPage />} />
+  <Route path="*" element={<NotFoundPage />} />
+</Routes>
+```
+
+**useParams()**: Obtiene parámetros de la URL
+```jsx
+const { id } = useParams(); // Obtiene el :id de /contact/:id
+```
+
+**useNavigate()**: Navegación programática desde código
+```jsx
+const navigate = useNavigate();
+navigate(`/contact/${contactId}`); // Navega a una ruta específica
+```
+
+**NavLink**: Link que resalta cuando está activo
+```jsx
+<NavLink 
+  to="/" 
+  className={({ isActive }) => 
+    isActive ? "active-style" : "normal-style"
+  }
+>
+  Home
+</NavLink>
+```
+
+**Link vs useNavigate**:
+- `Link`: Para navegación directa desde el JSX (enlaces clicables)
+- `useNavigate`: Para navegación programática desde funciones (después de validaciones, acciones, etc.)
+
 ## 🎨 Estilos
 
 - El proyecto usa **Tailwind CSS** para estilos
@@ -137,11 +211,27 @@ const updatedContacts = contacts.map(contact => {
 
 ## 🔄 Flujo de Datos
 
-1. **Estado en App.jsx**: El estado `contacts` vive en el componente `App`
+1. **Estado en HomePage.jsx**: El estado `contacts` vive en el componente `HomePage`
 2. **Props hacia abajo**: Se pasa `contacts` y funciones a `ContactList`
 3. **Eventos hacia arriba**: `ContactList` y `ContactCard` llaman a las funciones recibidas como props
-4. **Actualización del estado**: Las funciones en `App` actualizan el estado usando `setContacts`
+4. **Actualización del estado**: Las funciones en `HomePage` actualizan el estado usando `setContacts`
 5. **Re-renderizado**: React detecta el cambio y vuelve a renderizar los componentes afectados
+
+## 🧭 Sistema de Navegación
+
+### Rutas Disponibles
+
+- **`/`**: Página principal con lista de contactos
+- **`/contact/:id`**: Página de detalle de un contacto específico (ej: `/contact/1`)
+- **`/about`**: Página "Acerca de"
+- **`*`**: Cualquier otra ruta muestra la página 404
+
+### Navegación entre Contactos
+
+En la página de detalle (`ContactDetailPage`):
+- Botón "Anterior": Navega al contacto con ID menor (se desactiva en el primer contacto)
+- Botón "Siguiente": Navega al contacto con ID mayor (se desactiva en el último contacto)
+- Los contactos se ordenan por ID para mantener un orden consistente
 
 ---
 
@@ -150,6 +240,9 @@ const updatedContacts = contacts.map(contact => {
 - [React useState Hook](https://react.dev/reference/react/useState)
 - [Inmutabilidad en React](https://react.dev/learn/updating-arrays-in-state)
 - [Listas y Keys en React](https://react.dev/learn/rendering-lists)
+- [React Router](https://reactrouter.com/)
+- [useParams Hook](https://reactrouter.com/en/main/hooks/use-params)
+- [useNavigate Hook](https://reactrouter.com/en/main/hooks/use-navigate)
 
 ---
 
